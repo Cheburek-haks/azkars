@@ -3,7 +3,7 @@ const auth = require("../middleware/auth.middleware");
 const Comment = require("../models/Comment");
 const router = express.Router({ mergeParams: true });
 
-router.get("/:commentType", auth, async (req, res) => {
+router.get("/:commentType", async (req, res) => {
   try {
     const { commentType } = req.params;
     const list = await Comment.find({ type: commentType });
@@ -15,7 +15,7 @@ router.get("/:commentType", auth, async (req, res) => {
     });
   }
 });
-router.post("/", auth, async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     console.log("kak---", req.user);
     const newComment = await Comment.create({
@@ -31,7 +31,7 @@ router.post("/", auth, async (req, res) => {
   }
 });
 
-router.delete("/:commentId", auth, async (req, res) => {
+router.delete("/:commentId", async (req, res) => {
   try {
     const { commentId } = req.params;
     const removedComment = await Comment.findById(commentId);

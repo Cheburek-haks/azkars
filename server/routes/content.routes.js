@@ -54,9 +54,12 @@ router.post(
     },
   ]
 );
-router.get("/getAll", auth, async (req, res) => {
+router.get("/getAll/:type", async (req, res) => {
   try {
-    const list = await Content.find();
+    console.log(chalk.blue("Server worked"));
+    const { type } = req.params;
+
+    const list = await Content.find({ type: type });
     res.status(200).send(list);
   } catch (error) {
     res.status(500).json({
@@ -64,4 +67,5 @@ router.get("/getAll", auth, async (req, res) => {
     });
   }
 });
+
 module.exports = router;
