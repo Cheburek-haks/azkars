@@ -25,8 +25,8 @@ router.post(
           });
         }
         const { title } = req.body;
-        const exitingUser = await Content.findOne({ title });
-        if (exitingUser) {
+        const exitingContent = await Content.findOne({ title });
+        if (exitingContent) {
           return res.status(400).json({
             error: {
               message: "TITLE_EXISTS",
