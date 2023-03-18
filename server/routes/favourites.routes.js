@@ -11,8 +11,13 @@ router.post("/:dataId", auth, async (req, res) => {
     const { dataId } = req.params;
     const data = await Content.findOne({ _id: dataId });
     if (data) {
-      const updateData = { ...data._doc, userId: req.user.id };
+      const updateData = {
+        ...data._doc,
+        id: dataId + req.user.id,
+        userId: req.user.id,
+      };
       delete updateData._id;
+
       const newData = await Favourites.create({
         ...updateData,
       });
@@ -23,6 +28,17 @@ router.post("/:dataId", auth, async (req, res) => {
         message: "Проверьте свои данные ",
       });
     }
+  } catch (error) {
+    res.status(500).json({
+      message: "Сервер сдох иди отсюда ",
+    });
+  }
+});
+router.delete("/:dataId", auth, async (req, res) => {
+  try {
+    const { dataId } = req.params;
+    const data = await Favourites.remove({ id: dataId + req.user.id });
+    res.send(data);
   } catch (error) {
     res.status(500).json({
       message: "Сервер сдох иди отсюда ",

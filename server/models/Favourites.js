@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 
 const shema = new Schema({
-  id: { type: Number },
+  id: { type: String },
   userId: { type: String },
   title: { type: String },
   arabicLanguage: { type: String },
