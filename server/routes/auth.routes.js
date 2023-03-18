@@ -44,7 +44,7 @@ router.post("/signUp", [
         password: hashedPassword,
       });
 
-      const tokens = tokenService.generate({ _id: newUser._id });
+      const tokens = tokenService.generate({ id: newUser._id });
 
       await tokenService.save(newUser._id, tokens.refreshToken);
 

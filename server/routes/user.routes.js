@@ -9,12 +9,12 @@ router.patch("/:userId", auth, async (req, res) => {
   try {
     const { userId } = req.params;
 
-    if (userId === req.user.id || userId === req.user._id) {
+    if (userId === req.user.id) {
       const updatedUser = await User.findByIdAndUpdate(userId, req.body, {
         new: true,
       });
       const favourites = await Favourites.find({
-        userId: req.user.id || req.user._id,
+        userId: req.user.id,
       });
       res.send({ ...updatedUser._doc, favourites: favourites });
     } else {

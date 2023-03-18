@@ -11,7 +11,7 @@ router.post("/:dataId", auth, async (req, res) => {
     const { dataId } = req.params;
     const data = await Content.findOne({ _id: dataId });
     if (data) {
-      const updateData = { ...data._doc, userId: req.user._id };
+      const updateData = { ...data._doc, userId: req.user.id };
       delete updateData._id;
       const newData = await Favourites.create({
         ...updateData,
