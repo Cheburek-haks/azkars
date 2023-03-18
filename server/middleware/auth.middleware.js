@@ -14,7 +14,6 @@ module.exports = (req, res, next) => {
     }
 
     const data = tokenService.validateAcces(token);
-    console.log(data);
 
     console.log("data ", data);
     if (!data) {
