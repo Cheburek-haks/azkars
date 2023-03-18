@@ -4,7 +4,7 @@ const chalk = require("chalk");
 const Content = require("../models/Content");
 const router = express.Router({ mergeParams: true });
 const auth = require("../middleware/auth.middleware");
-
+const TitleType = require("../models/TitleType");
 router.post(
   "/create",
 
@@ -60,7 +60,8 @@ router.get("/getAll/:type", async (req, res) => {
     const { type } = req.params;
 
     const list = await Content.find({ type: type });
-    res.status(200).send(list);
+    const title = await TitleType.findOne({ type: type });
+    res.status(200).send({ data: list, title: title });
   } catch (error) {
     res.status(500).json({
       message: "Сервер сдох",

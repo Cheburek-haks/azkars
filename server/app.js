@@ -1,4 +1,5 @@
 const express = require("express");
+const fileUpload = require("express-fileupload");
 const mongoose = require("mongoose");
 const config = require("config");
 const chalk = require("chalk");
@@ -7,8 +8,10 @@ const cors = require("cors");
 const port = config.get("port") ?? 9090;
 const app = express();
 
+app.use(fileUpload());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(express.static("./public"));
 app.use(express.static("../client/azkars/public"));
 app.use(cors());
 app.use("/api", routes);
