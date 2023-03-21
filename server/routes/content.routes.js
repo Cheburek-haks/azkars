@@ -36,18 +36,16 @@ router.post(
                     });
                 }
 
-                const newContent = Content.create({
+                const newContent = await Content.create({
                     ...req.body,
                     id: Date.now(),
                 });
 
                 res.status(201).send({
-                    user: await newContent,
+                    user: newContent,
                 });
                 console.log(
-                    chalk.blueBright(
-                        `Created new content - ${await newContent}`
-                    )
+                    chalk.blueBright(`Created new content - ${newContent}`)
                 );
             } catch (error) {
                 return res.status(500).json({
@@ -62,6 +60,7 @@ router.get("/getAll/:type", contentMiddleware, async (req, res) => {
         const { type } = req.params;
 
         const list = await Content.find({ type: type });
+        const title = await TitleType.findOne({ type: type });
 
         if (req.user) {
             const favouritesList = await Favourites.find({
@@ -79,10 +78,9 @@ router.get("/getAll/:type", contentMiddleware, async (req, res) => {
                     };
                 });
 
-                res.send(updateData);
+                res.status(200).send({ data: updateData, title: title });
             }
         } else {
-            const title = await TitleType.findOne({ type: type });
             res.status(200).send({ data: list, title: title });
         }
     } catch (error) {
