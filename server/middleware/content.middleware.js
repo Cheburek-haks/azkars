@@ -13,16 +13,7 @@ module.exports = (req, res, next) => {
       : "";
 
     if (token) {
-      if (!token) {
-        return res.status(401).json({ message: "Unauthorized token" });
-      }
-
       const data = tokenService.validateAcces(token);
-
-      console.log("data ", data);
-      if (!data) {
-        return res.status(401).json({ message: "Unauthorized data" });
-      }
       req.user = data;
       next();
     } else {
