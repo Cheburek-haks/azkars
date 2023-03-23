@@ -7,10 +7,10 @@ const router = express.Router({ mergeParams: true });
 router.post("/", async (req, res) => {
   try {
     const image = req.files["image"];
-    image.mv("./public/img/" + image.name);
+
     const newNavBar = await NavBar.create({
       ...req.body,
-      image: `public/img/${image.name}`,
+      image: `/img/${image.name}`,
     });
     res.status(201).send(newNavBar);
   } catch (error) {
